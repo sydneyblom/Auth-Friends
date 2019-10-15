@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
+import { Divider, Button, Form, Input } from 'semantic-ui-react'
+
 
 const AddFriend = ({ setFriends }) => {
   const [form, setForm] = useState({
@@ -42,9 +44,12 @@ const AddFriend = ({ setFriends }) => {
 
   return (
     <div className="add-friend">
+        <div class="ui hidden divider"></div>
+        <div class="ui hidden divider"></div>
       <h1>Add A Friend:</h1>
-      <form error onSubmit={e => formHandler(e)}>
-        <input
+      <Form error onSubmit={e => formHandler(e)}>
+      <Form.Group>
+        <Input style= {{margin:'5px'}}
           type="text"
           placeholder="Name"
           name="name"
@@ -53,7 +58,7 @@ const AddFriend = ({ setFriends }) => {
           className="add-name"
         />
 
-        <input
+        <Input style= {{margin:'5px'}}
           type="number"
           placeholder="Age"
           name="age"
@@ -62,7 +67,7 @@ const AddFriend = ({ setFriends }) => {
           className="add-age"
         />
 
-        <input
+        <Input style= {{margin:'5px'}}
           type="email"
           placeholder="Email"
           name="email"
@@ -72,8 +77,9 @@ const AddFriend = ({ setFriends }) => {
         />
 
 
-        <button type="submit">Submit</button>
-      </form>
+        <Button type="submit" style= {{margin:'5px'}}>Submit</Button>
+        </Form.Group>
+      </Form>
     </div>
   );
 };

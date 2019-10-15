@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
+import { Header, Segment } from 'semantic-ui-react'
 
 import Login from "./components/Login";
 import PrivateRoute from "./components/PrivateRoute";
@@ -11,14 +12,14 @@ function App() {
   return (
     <Router>
       <div className="App">
-        <ul>
-          <li>
+      <Segment clearing>
+      <Header as='h3' floated='right'>
+      <div className="links">
             <Link to="/login">Login</Link>
-          </li>
-          <li>
             <Link to="/Friends">Friends</Link>
-          </li>
-        </ul>
+          </div>
+          </Header>
+          </Segment>
         <Switch>
         <PrivateRoute exact path="/friends" component={Friends} />
           <Route path="/login" component={Login} />
