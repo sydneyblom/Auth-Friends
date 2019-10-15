@@ -1,9 +1,10 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Link, Switch } from 'react-router-dom';
+import React from "react";
+import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 
-import Login from './components/Login';
-import PrivateRoute from './components/PrivateRoute';
-
+import Login from "./components/Login";
+import PrivateRoute from "./components/PrivateRoute";
+import Friends from "./components/Friends";
+import "./App.css";
 
 
 function App() {
@@ -15,10 +16,11 @@ function App() {
             <Link to="/login">Login</Link>
           </li>
           <li>
-            <Link to="/protected">Protected Page</Link>
+            <Link to="/Friends">Friends</Link>
           </li>
         </ul>
         <Switch>
+        <PrivateRoute exact path="/friends" component={Friends} />
           <Route path="/login" component={Login} />
           <Route component={Login} />
         </Switch>
