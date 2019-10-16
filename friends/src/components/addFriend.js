@@ -1,28 +1,30 @@
 import React from "react";
 //normally would import useState from react but on line 8 can just set it on useState. (usestate => react.useState )
+import { Button, Form, Input } from 'semantic-ui-react';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-import { Button, Form, Input } from 'semantic-ui-react'
 
 
-const AddFriend = ({ setFriends }) => {
+export default function AddFriend (props) {
   const [form, setForm] = React.useState({
     name: "",
     age: "",
     email: ""
   });
 
+  const handleChanges= e => {
+    setForm({...form, [e.target.name]: e.target.value})
+  };
 
-  const formHandler = e => {
+
+  const newFriend = e => {
     e.preventDefault();
     axiosWithAuth()
-      .post("/api/friends", form)
-      .then(res => {
+    .post("/api/friends", form)
+    .then(res => {
         //console log to make sure full array is being returned
-        setFriends(res.data);
+        props.setFriends(res.data)
       })
-      .catch((err) => {
-        console.log (err.response)
-      });
+      .catch(err => console.log (err.response))
   };
 
 
@@ -32,14 +34,14 @@ const AddFriend = ({ setFriends }) => {
         <div class="ui hidden divider"></div>
         <div class="ui hidden divider"></div>
       <h1>Add A Friend:</h1>
-      <Form error onSubmit={e => formHandler(e)}>
+      <Form onSubmit= {newFriend}>
       <Form.Group>
         <Input style= {{margin:'5px'}}
           type="text"
           placeholder="Name"
           name="name"
           value={form.name}
-          onChange={e => setForm({ ...form, name: e.target.value })}
+          onChange= {handleChanges}
           className="add-name"
         />
 
@@ -48,7 +50,7 @@ const AddFriend = ({ setFriends }) => {
           placeholder="Age"
           name="age"
           value={form.age}
-          onChange={e => setForm({ ...form, age: e.target.value })}
+          onChange={handleChanges}
           className="add-age"
         />
 
@@ -57,7 +59,7 @@ const AddFriend = ({ setFriends }) => {
           placeholder="Email"
           name="email"
           value={form.email}
-          onChange={e => setForm({ ...form, email: e.target.value })}
+          onChange={handleChanges}
           className="add-email"
         />
 
@@ -69,4 +71,3 @@ const AddFriend = ({ setFriends }) => {
   );
 };
 
-export default AddFriend;
