@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
-import { Divider, Button, Form, Input } from 'semantic-ui-react'
+import { Button, Form, Input } from 'semantic-ui-react'
 
 
 const AddFriend = ({ setFriends }) => {
@@ -9,38 +9,22 @@ const AddFriend = ({ setFriends }) => {
     age: "",
     email: ""
   });
-  const [ error , setError] = useState(false);
+
 
   const formHandler = e => {
     e.preventDefault();
     axiosWithAuth()
       .post("/api/friends", form)
       .then(res => {
+        //console log to make sure full array is being returned
         setFriends(res.data);
       })
-      .catch(() => {
-        errorHandler();
+      .catch((err) => {
+        console.log (err.response)
       });
   };
 
-  const errorHandler = () => {
-    setForm({
-      ...form,
-      name: "",
-      age: "",
-      email: ""
-    });
-    setError(true);
-    setTimeout(() => {
-      setForm({
-        ...form,
-        name: "",
-        age: "",
-        email: ""
-      });
-      setError(false);
-    }, 3000);
-  };
+
 
   return (
     <div className="add-friend">

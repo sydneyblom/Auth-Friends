@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link, Switch } from "react-router-dom";
 import { Header, Segment } from 'semantic-ui-react'
 
 import Login from "./components/Login";
-import PrivateRoute from "./components/PrivateRoute";
+import PrivateRoute from "./utils/PrivateRoute";
 import Friends from "./components/Friends";
 import "./App.css";
 

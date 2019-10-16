@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import AddFriend from "./addFriend";
-import { Card, Divider } from 'semantic-ui-react'
+import { Card } from 'semantic-ui-react'
     const Friends = () => {
         const [friends, setFriends] = useState([]);
       
@@ -9,6 +9,7 @@ import { Card, Divider } from 'semantic-ui-react'
           axiosWithAuth()
             .get("/api/friends")
             .then(res => {
+              console.log('get', res)
               setFriends(res.data);
             })
             .catch(err => console.log(err));
