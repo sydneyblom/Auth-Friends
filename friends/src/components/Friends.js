@@ -24,6 +24,14 @@ React.useEffect(() => {
   fetchFriends()
 }, []);
 
+const deleteFriend = id => {
+  axiosWithAuth().delete(`api/friends/${id}`)
+  .then(res => {
+    //updates the rendering so the friend is removed
+    setFriends(res.data);
+  })
+  .catch(err => console.log (err.response))
+}
 
   return (
     <div>
@@ -38,10 +46,11 @@ React.useEffect(() => {
             <div id={friend.id} className="friend">
               <Card style={{ margin: "5px" }}>
                 <Card.Content>
-                  <Card.Header>{friend.name}</Card.Header>
-                  <Card.Description>{friend.age}</Card.Description>
-                  <Card.Description>{friend.email}</Card.Description>
-                  <Button>EDIT</Button>
+                  <Card.Header>Name: {friend.name}</Card.Header>
+                  <Card.Description>Age: {friend.age}</Card.Description>
+                  <Card.Description>Email: {friend.email}</Card.Description>
+                  <Button>EDIT</Button> {}
+                  <Button onClick={()=>deleteFriend(friend.id)}>DELETE</Button> {}
                 </Card.Content>
               </Card>
             </div>
