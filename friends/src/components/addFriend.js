@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+//normally would import useState from react but on line 8 can just set it on useState. (usestate => react.useState )
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 import { Button, Form, Input } from 'semantic-ui-react'
 
 
 const AddFriend = ({ setFriends }) => {
-  const [form, setForm] = useState({
+  const [form, setForm] = React.useState({
     name: "",
     age: "",
     email: ""
