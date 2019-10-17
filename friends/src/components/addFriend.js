@@ -3,7 +3,6 @@ import React from "react";
 import { Button, Form, Input } from 'semantic-ui-react';
 import { axiosWithAuth } from "../utils/axiosWithAuth";
 
-
 export default function AddFriend (props) {
   const [form, setForm] = React.useState({
     name: "",
@@ -11,23 +10,58 @@ export default function AddFriend (props) {
     email: ""
   });
 
-  const handleChanges= e => {
-    setForm({...form, [e.target.name]: e.target.value})
-  };
+
+React.useEffect(() => {
+    if (props.editingFriend) {
+     setForm({name: props.editingFriend.name, age: props.editingFriend.age, email: props.editingFriend.email});
+    } else {
+   setForm({
+    name: "",
+    age: "",
+    email: ""
+  });
+    }
+}, [props.editingFriend]);
+
+const handleChanges= e => {
+  setForm({...form, [e.target.name]: e.target.value})
+};
 
 
   const newFriend = e => {
     e.preventDefault();
+
+    if (props.editingFriend) {
+    axiosWithAuth().put(`/api/friends/${props.editingFriend.id}`, form).then(res => {
+      props.setFriends(res.data);
+      setForm({
+        name: "",
+        age: "",
+        email: ""
+      })
+      props.setEditingFriend(null)
+    })
+
+  } else {
     axiosWithAuth()
     .post("/api/friends", form)
     .then(res => {
         //console log to make sure full array is being returned
-        props.setFriends(res.data)
+        props.setFriends(res.data);
+        setForm({
+          name: "",
+          age: "",
+          email: ""
+        })
       })
       .catch(err => console.log (err.response))
+    }
   };
 
-
+const closeEdit = e => {
+  e.preventDefault();
+  props.setEditingFriend(null)
+}
 
   return (
     <div className="add-friend">
@@ -37,6 +71,7 @@ export default function AddFriend (props) {
       <Form onSubmit= {newFriend}>
       <Form.Group>
         <Input style= {{margin:'5px'}}
+        required
           type="text"
           placeholder="Name"
           name="name"
@@ -46,6 +81,7 @@ export default function AddFriend (props) {
         />
 
         <Input style= {{margin:'5px'}}
+        required
           type="number"
           placeholder="Age"
           name="age"
@@ -55,6 +91,7 @@ export default function AddFriend (props) {
         />
 
         <Input style= {{margin:'5px'}}
+        required
           type="email"
           placeholder="Email"
           name="email"
@@ -63,8 +100,8 @@ export default function AddFriend (props) {
           className="add-email"
         />
 
-
-        <Button type="submit" style= {{margin:'5px'}}>Submit</Button>
+        <Button type="submit" style= {{margin:'5px'}}>{props.editingFriend ? "Edit" : "Add Friend"}</Button>
+        <Button onClick={closeEdit}>Cancel</Button>
         </Form.Group>
       </Form>
     </div>

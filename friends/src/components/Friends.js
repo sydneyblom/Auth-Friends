@@ -6,7 +6,7 @@ import { Card, Button } from "semantic-ui-react";
 
 const Friends = () => {
   const [friends, setFriends] = React.useState([]);
-
+  const [editingFriend, setEditingFriend] = React.useState ()
 
   const fetchFriends = () => {
     axiosWithAuth()
@@ -33,9 +33,13 @@ const deleteFriend = id => {
   .catch(err => console.log (err.response))
 }
 
+const editFriend = friend => {
+  setEditingFriend(friend);
+
+}
   return (
     <div>
-      <AddFriend setFriends={setFriends} />
+      <AddFriend editingFriend= {editingFriend} setFriends={setFriends} setEditingFriend={setEditingFriend} />
       <div class="ui hidden divider"></div>
       <div class="ui hidden divider"></div>
       <h1>Friends</h1>
@@ -49,7 +53,7 @@ const deleteFriend = id => {
                   <Card.Header>Name: {friend.name}</Card.Header>
                   <Card.Description>Age: {friend.age}</Card.Description>
                   <Card.Description>Email: {friend.email}</Card.Description>
-                  <Button>EDIT</Button> {}
+                  <Button onClick={()=>editFriend(friend)}>EDIT</Button> {}
                   <Button onClick={()=>deleteFriend(friend.id)}>DELETE</Button> {}
                 </Card.Content>
               </Card>
